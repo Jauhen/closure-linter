@@ -1,0 +1,4 @@
+*.DS_Store
+.idea/*
+source_files/.svn/*
+source_files/.DS_Store
