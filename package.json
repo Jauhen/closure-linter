@@ -14,7 +14,8 @@
     "javascript",
     "lint",
     "linter",
-    "cli"
+    "cli",
+    "google closure"
   ],
   "author": "jauhen@gmail.com",
   "license": "Apache License, Version 2.0",
