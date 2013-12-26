@@ -1,0 +1,35 @@
+{
+  "name": "closure-linter",
+  "version": "0.0.1",
+  "description": "Port of Google Closure Linter to npm module.",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jauhen/closure-linter.git"
+  },
+  "keywords": [
+    "javascript",
+    "lint",
+    "linter",
+    "cli"
+  ],
+  "author": "jauhen@gmail.com",
+  "license": "Apache License, Version 2.0",
+  "bugs": {
+    "url": "https://github.com/Jauhen/closure-linter/issues"
+  },
+  "homepage": "https://github.com/Jauhen/closure-linter",
+  "devDependencies": {
+    "grunt": "~0.4.2"
+  },
+  "dependencies": {
+    "commander": "~2.1.0",
+    "underscore": "~1.5.2",
+    "underscore.string": "~2.3.3",
+    "glob": "~3.2.7",
+    "htmlparser": "~1.7.7"
+  }
+}
