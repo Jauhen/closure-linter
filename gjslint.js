@@ -55,7 +55,7 @@ var generateSuffixes = function(program) {
                     return val;
                 }
                 return '.' + val;
-            })
+            });
     }
 
     suffixes = suffixes.concat(extensions);

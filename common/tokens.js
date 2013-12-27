@@ -67,11 +67,11 @@ Token.prototype.isType = function(tokenType) {
 };
 
 Token.prototype.isAnyType = function(tokenTypes) {
-    return _.contains(tokenTypes, token.type);
+    return _.contains(tokenTypes, this.type);
 };
 
 Token.prototype.toString = function() {
-    return _s.sprintf('<Token: %s, "%s", %r, %d, %r>',
+    return _s.sprintf('<Token: %s, "%s", %s, %d, %s>',
             this.type, this.string, this.values,
             this.lineNumber, this.metadata);
 }

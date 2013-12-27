@@ -15,7 +15,8 @@ var getUnixErrorOutput = function(filename, error) {
         line = _s.sprintf('%d', error.token.lineNumber);
     }
 
-    var errorCode = _s.sprintf('%04d', error.code);
+    var errorCode = error.code < 0 ? _s.sprintf('-%03d', -1 * error.code) :
+            _s.sprintf('%04d', error.code);
     return _s.sprintf('%s:%s:(%s) %s',
             filename, line, errorCode, error.message);
 };
@@ -31,7 +32,8 @@ var getErrorOutput = function(error) {
         line = _s.sprintf('Line %d', error.token.lineNumber);
     }
 
-    var errorCode = _s.sprintf('E:%04d', error.code);
+    var errorCode = error.code < 0 ? _s.sprintf('E:-%03d', -1 * error.code) :
+            _s.sprintf('E:%04d', error.code);
 
     return _s.sprintf('%s%s:%s', line, errorCode, error.message);
 };
