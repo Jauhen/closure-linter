@@ -71,6 +71,7 @@ var printFileSeparator = function(path) {
     console.log(_s.sprintf('----- FILE  :  %s -----', path));
 }
 
+
 /**
  * Print error records strings in the expected format.
  *
@@ -92,11 +93,54 @@ var printErrorRecords = function(program, errorRecords) {
 }
 
 
+/**
+ * Print a summary of the number of errors and files.
+ */
+var printSummary = function(paths, errorRecords) {
+    var errorCount = errorRecords.length;
+    var pathCount = paths.length;
+
+    if (errorCount == 0) {
+        console.log('%d files checked, no errors found.', pathCount);
+    }
+
+    var newErrorCount = _.filter(errorRecords, function(e) {
+        return e.newError;}).length;
+
+    var errorPaths = _.uniq(_.map(errorRecords, function(e) {
+        return e.path;
+    }));
+
+    var errorPathsCount = errorPaths.length;
+    var noErrorPathsCount = pathCount - errorPathsCount;
+
+    if (errorCount || newErrorCount) {
+        console.log('Found %d errors, including %d new errors, in %d files ' +
+                '(%d files OK).', errorCount, newErrorCount, errorPathsCount,
+                noErrorPathsCount);
+    }
+};
+
+/**
+ * Print a detailed summary of the number of errors in each file.
+ */
+var printFileSummary = function(paths, errorRecords) {
+    _.each(paths, function(path) {
+        var pathErrors = _.filter(errorRecords, function(e) {
+            return e.path == path;
+        });
+
+        console.log('%s: %d', path, pathErrors.length);
+    })
+};
+
+
 var list = function(val) {
     return _.filter(val.split(','), function(val) {
         return val;
     });
 };
+
 
 program.
         version('0.0.1').
@@ -110,7 +154,7 @@ program.
         option('-S, --summary', 'Whether to show an error count summary.',
                 false).
         option('-E, --extensions <extensions>',
-                'List of additional file extensions (not js) that should be ' +
+                'List of additional file extensions (not .js) that should be ' +
                 'treated as JavaScript files.', list).
         option('-R --recurse',
                 'Recurse in to the subdirectories of the given path.', true).
@@ -127,8 +171,40 @@ program.
         option('-E, --error_trace', 'Whether to show error exceptions.', false).
         parse(process.argv);
 
+if (program.time) {
+    console.time('Done in');
+}
+
 var paths = fileflags.getFileList(program, generateSuffixes(program));
 
-var recordsIter = checkPaths(program, paths);
+var errorRecords = checkPaths(program, paths);
 
-printErrorRecords(program, recordsIter);
+printErrorRecords(program, errorRecords);
+
+printSummary(paths, errorRecords);
+
+var exitCode = 0;
+
+// If there are any errors.
+if (errorRecords) {
+    exitCode++;
+}
+
+// If there are any new errors.
+if (_.filter(errorRecords, function(e) {return e.newError;})) {
+    exitCode += 2;
+}
+
+if (exitCode) {
+    if (program.summary) {
+        printFileSummary(paths, errorRecords);
+    }
+
+    if (program.beep) {
+        console.log('\007');
+    }
+
+    if (program.time) {
+        console.timeEnd('Done in');
+    }
+}

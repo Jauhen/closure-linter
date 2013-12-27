@@ -48,10 +48,10 @@ Tokenizer.prototype._tokenizeLine = function(line) {
                 return false;
             }
 
-            matcher.regex.lastIndex = index;
-            var match = matcher.regex.exec(string);
+            matcher.regex.lastIndex = 0;
+            var match = matcher.regex.exec(string.substr(index));
 
-            if (match && match.index == index) {
+            if (match && match.index == 0) {
                 if (normalToken) {
                     this._addToken(this._createNormalToken(
                             this.mode, normalToken, line, lineNumber));
@@ -63,7 +63,7 @@ Tokenizer.prototype._tokenizeLine = function(line) {
 
                 this.mode = matcher.resultMode || this.mode;
 
-                index = match.index + match[0].length;
+                index = index + match[0].length;
 
                 return true;
             }
