@@ -37,9 +37,9 @@ var runner = require('./lib/runner');
  *
  * @param {Array.<string>} paths Paths to check.
  */
-var checkPaths = function(program, paths) {
+var checkPaths = function(paths) {
     return _.flatten(_.map(paths, function(path) {
-        return checkPath(program, path);
+        return checkPath(path);
     }), true);
 };
 
@@ -51,21 +51,20 @@ var checkPaths = function(program, paths) {
  * @return {Array.<ErrorRecords>} A list of errorRecord.ErrorRecords for any
  *      found errors.
  */
-var checkPath = function(program, path) {
+var checkPath = function(path) {
     var errorHandler = new errorAccumulator.ErrorAccumulator();
-    runner.run(program, path, errorHandler);
+    runner.run(path, errorHandler);
 
     return _.map(errorHandler.getErrors(), function(err) {
-        return errorRecord.makeErrorRecord(program, path, err);
+        return errorRecord.makeErrorRecord(path, err);
     });
 };
 
 
 /**
  * Generates list of suffixes for checked files.
- * @param {commander} program
  */
-var generateSuffixes = function(program) {
+var generateSuffixes = function() {
     var suffixes = ['.js'];
     var extensions = [];
 
@@ -96,10 +95,9 @@ var printFileSeparator = function(path) {
 /**
  * Print error records strings in the expected format.
  *
- * @param {Object} program
  * @param {Array.<ErrorRecord>} errorRecords
  */
-var printErrorRecords = function(program, errorRecords) {
+var printErrorRecords = function(errorRecords) {
     var currentPath = null;
 
     _.each(errorRecords, function(record) {
@@ -190,17 +188,23 @@ program.
                 'descriptions, or methods whose @return tags don\'t have a ' +
                 'matching return statement.', list, ['dummy.js', 'externs.js']).
         option('-E, --error_trace', 'Whether to show error exceptions.', false).
+        option('-C, --closurized_namespaces <list>',
+                'Namespace prefixes, used for testing of goog.provide/require',
+                list).
+        option('-I, --ignored_extra_namespaces <list>',
+                'Fully qualified namespaces that should be not be reported ' +
+                'as extra by the linter.', list).
         parse(process.argv);
 
 if (program.time) {
     console.time('Done in');
 }
 
-var paths = fileflags.getFileList(program, generateSuffixes(program));
+var paths = fileflags.getFileList(generateSuffixes(program));
 
-var errorRecords = checkPaths(program, paths);
+var errorRecords = checkPaths(paths);
 
-printErrorRecords(program, errorRecords);
+printErrorRecords(errorRecords);
 
 printSummary(paths, errorRecords);
 

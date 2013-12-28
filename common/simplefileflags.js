@@ -5,6 +5,7 @@
 var fs = require('fs');
 var glob = require('glob');
 var path = require('path');
+var program = require('commander');
 var _ = require('underscore');
 var _s = require('underscore.string');
 
@@ -27,14 +28,12 @@ var matchesSuffixes = function(filename, suffixes) {
  * Returns files to be linted, specified directly on the command line.
  * Can handle the '*' wildcard in filenames, but no other wildcards.
  *
- * @param {Object} program Sequence of command line arguments. The second and
- *      following arguments are assumed to be files that should be linted.
  * @param {Array.<string>} suffixes Expected suffixes for the file type being
  *      checked.
  * @return {Array.<string>} A sequence of files to be linted.
  * @private
  */
-var _getUserSpecifiedFiles = function(program, suffixes) {
+var _getUserSpecifiedFiles = function(suffixes) {
     var allFiles = [];
 
     _.each(program.args, function(f) {
@@ -87,18 +86,16 @@ var _getRecursiveFiles = function(suffixes) {
  * @export
  * Returns all files specified by the user on the commandline.
  *
- * @param {Object} program Sequence of command line arguments. The second and
- *      following arguments are assumed to be files that should be linted.
  * @param {Array.<string>} suffixes Expected suffixes for the file type.
  * @return {Array.<string>} A list of all files specified directly or indirectly
  *      (via flags) on the command line by the user.
  */
-var getAllSpecifiedFiles = function(program, suffixes) {
-    var files = _getUserSpecifiedFiles(program, suffixes);
+var getAllSpecifiedFiles = function(suffixes) {
+    var files = _getUserSpecifiedFiles(suffixes);
     if (program.recurse) {
         files = files.concat(_getRecursiveFiles(suffixes));
     }
-    return filterFiles(program, files);
+    return filterFiles(files);
 };
 
 
@@ -107,11 +104,10 @@ var getAllSpecifiedFiles = function(program, suffixes) {
  * Filters the list of files to be linted be removing any excluded files.
  * Filters out files excluded using --exclude_files and  --exclude_directories.
  *
- * @param {Object} program Set of command line arguments.
  * @param {Array.<string>} files Sequence of files that needs filtering.
  * @return {Array.<string} Filtered list of files to be linted.
  */
-var filterFiles = function(program, files) {
+var filterFiles = function(files) {
     var numFiles = files.length;
     var ignoreDirsRegexs = _.map(program.exclude_directories, function(val) {
         return RegExp(_s.sprintf('(^|[\\/])%s[\\/]', val));
@@ -151,8 +147,8 @@ var filterFiles = function(program, files) {
  *      file type.
  * @return {Array.<string>} The list of files to check.
  */
-var getFileList = function(program, suffixes) {
-    return getAllSpecifiedFiles(program, suffixes).sort();
+var getFileList = function(suffixes) {
+    return getAllSpecifiedFiles(suffixes).sort();
 };
 
 
