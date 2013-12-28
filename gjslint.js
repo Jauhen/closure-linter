@@ -1,11 +1,32 @@
 #!/usr/bin/env node
 
+/**
+ * Checks JavaScript files for common style guide violations.
+ *
+ * gjslint.js is designed to be used as a PRESUBMIT script to check for
+ * javascript style guide violations.  As of now, it checks for the following
+ * violations:
+ *
+ * * Missing and extra spaces
+ * * Lines longer than 80 characters
+ * * Missing newline at end of file
+ * * Missing semicolon after function declaration
+ * * Valid JsDoc including parameter matching
+ *
+ * Someday it will validate to the best of its ability against the entirety of
+ * the JavaScript style guide.
+ *
+ * This file is a front end that parses arguments and flags.  The core of the
+ * code is in tokenizer.js and checker.js.
+ */
+
+
 var program = require('commander');
 var _ = require('underscore');
 var _s = require('underscore.string');
 
-var fileflags = require('./common/simplefileflags');
 var errorAccumulator = require('./common/erroraccumulator');
+var fileflags = require('./common/simplefileflags');
 
 var errorRecord = require('./lib/errorrecord');
 var runner = require('./lib/runner');
