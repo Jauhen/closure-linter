@@ -1,4 +1,5 @@
 *.DS_Store
+source_files/closure_linter/.DS_Store
 .idea/*
 source_files/.svn/*
 source_files/.DS_Store
