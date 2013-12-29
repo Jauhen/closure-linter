@@ -1,3 +1,7 @@
+/**
+ * Classes to represent tokens and positions within them.
+ */
+
 var _ = require('underscore');
 var _s = require('underscore.string');
 
@@ -10,7 +14,7 @@ var TokenType = {
     NORMAL: 'normal',
     WHITESPACE: 'whitespace',
     BLANK_LINE: 'blank line'
-}
+};
 
 
 /**
@@ -54,28 +58,59 @@ var Token = function(string, tokenType, line, lineNumber, opt_values,
 };
 
 
+/**
+ * Tests if this token is the first token in its line.
+ * @returns {boolean} Whether the token is the first token in its line.
+ */
 Token.prototype.isFirstInLine = function() {
     return !this.previous || this.previous.lineNumber != this.lineNumber;
 };
 
+
+/**
+ * Tests if this token is the last token in its line.
+ * @returns {boolean} Whether the token is the last token in its line.
+ */
 Token.prototype.isLastInLine = function() {
     return !this.next || this.next.lineNumber != this.lineNumber;
 };
 
+
+/**
+ * Tests if this token is of the given type.
+ * @param {TokenType} tokenType The type to test for.
+ * @returns {boolean} True if the type of this token matches the type passed in.
+ */
 Token.prototype.isType = function(tokenType) {
     return this.type == tokenType;
 };
 
+
+/**
+ * Tests if this token is any of the given types.
+ * @param {Array.<TokenType} tokenTypes The types to check.
+ * @returns {boolean} True if the type of this token is any of the types
+ *      passed in.
+ */
 Token.prototype.isAnyType = function(tokenTypes) {
     return _.contains(tokenTypes, this.type);
 };
 
+
+/**
+ * @returns {string}
+ */
 Token.prototype.toString = function() {
     return _s.sprintf('<Token: %s, "%s", %s, %d, %s>',
             this.type, this.string, this.values,
             this.lineNumber, this.metadata);
-}
+};
 
+
+/**
+ * Returns a token iterator.
+ * @returns {Array.<Token>}
+ */
 Token.prototype.directIterator = function() {
     var current = this;
     var result = [];
@@ -84,8 +119,13 @@ Token.prototype.directIterator = function() {
         current = current.next;
     }
     return result;
-}
+};
 
+
+/**
+ * Returns a reverse-direction token iterator.
+ * @returns {Array.<Token>}
+ */
 Token.prototype.reverseIterator = function() {
     var current = this;
     var result = [];
@@ -94,7 +134,7 @@ Token.prototype.reverseIterator = function() {
         current = current.previous;
     }
     return result;
-}
+};
 
 
 exports.TokenType = TokenType;

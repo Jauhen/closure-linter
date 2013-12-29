@@ -4,3 +4,4 @@ source_files/closure_linter/.DS_Store
 source_files/.svn/*
 source_files/.DS_Store
 /node_modules
+test.js
