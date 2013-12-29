@@ -105,12 +105,12 @@ var getAllSpecifiedFiles = function(suffixes) {
  * Filters out files excluded using --exclude_files and  --exclude_directories.
  *
  * @param {Array.<string>} files Sequence of files that needs filtering.
- * @return {Array.<string} Filtered list of files to be linted.
+ * @return {Array.<string>} Filtered list of files to be linted.
  */
 var filterFiles = function(files) {
     var numFiles = files.length;
     var ignoreDirsRegexs = _.map(program.exclude_directories, function(val) {
-        return RegExp(_s.sprintf('(^|[\\/])%s[\\/]', val));
+        return new RegExp(_s.sprintf('(^|[\\/])%s[\\/]', val));
     });
 
     var resultFiles = _.filter(files, function(f) {
@@ -142,7 +142,6 @@ var filterFiles = function(files) {
  * @export
  * Parse the flags and return the list of files to check.
  *
- * @param {Object} program Set of command line arguments.
  * @param {Array.<string>} suffixes Sequence of acceptable suffixes for the
  *      file type.
  * @return {Array.<string>} The list of files to check.

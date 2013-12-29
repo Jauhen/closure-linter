@@ -36,7 +36,8 @@ Tokenizer.prototype._tokenizeLine = function(line) {
     this._startIndex = 0;
 
     if (!string) {
-        this._addToken(this._createToken('', Type.BLANK_LINE, line, lineNumber));
+        this._addToken(this._createToken(
+                '', Type.BLANK_LINE, line, lineNumber));
         return;
     }
 

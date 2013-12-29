@@ -11,7 +11,7 @@ var _s = require('underscore.string');
 var getUnixErrorOutput = function(filename, error) {
     var line = '';
 
-    if (error.tocken) {
+    if (error.token) {
         line = _s.sprintf('%d', error.token.lineNumber);
     }
 
@@ -28,8 +28,8 @@ var getUnixErrorOutput = function(filename, error) {
 var getErrorOutput = function(error) {
     var line = '';
 
-    if (error.tocken) {
-        line = _s.sprintf('Line %d', error.token.lineNumber);
+    if (error.token) {
+        line = _s.sprintf('Line %d, ', error.token.lineNumber);
     }
 
     var errorCode = error.code < 0 ? _s.sprintf('E:-%03d', -1 * error.code) :

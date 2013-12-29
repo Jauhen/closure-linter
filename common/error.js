@@ -9,7 +9,7 @@
  * @param {number} code The numeric error code.
  * @param {string} message The error message string.
  * @param {?Object} opt_token Token where the error occurred.
- * @param {?Object} opt_position The position of the error within the token.
+ * @param {?Position} opt_position The position of the error within the token.
  * @param {?Object} opt_fixData Data to be used in autofixing.  Codes with
  *      fix_data are: GOOG_REQUIRES_NOT_ALPHABETIZED - List of string value
  *      tokens that are class names in goog.requires calls.
@@ -25,7 +25,7 @@ var Error = function(code, message, opt_token, opt_position, opt_fixData) {
     if (this.position) {
         this.startIndex += this.position.start;
     }
-}
+};
 
 
 /**
@@ -43,6 +43,7 @@ Error.compare = function(a, b) {
     }
 
     return a.startIndex - b.startIndex;
-}
+};
+
 
 exports.Error = Error;

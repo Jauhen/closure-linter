@@ -83,7 +83,8 @@ ScriptExtractor.handleElement = function(element) {
                 var baseName = element.name.substring(1);
                 if (!this.isEmptyTag(element)) {
                     var pos = this._tagStack.length - 1;
-                    while (pos > -1 && this._tagStack[pos--].name != baseName) { }
+                    while (pos > -1 && this._tagStack[pos--].name != baseName) {
+                    }
                     if (pos > -1 || this._tagStack[0].name == baseName) {
                         while (pos < this._tagStack.length - 1) {
                             var openTag = this._tagStack.pop();

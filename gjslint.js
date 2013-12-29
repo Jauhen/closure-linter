@@ -26,10 +26,13 @@ var _ = require('underscore');
 var _s = require('underscore.string');
 
 var errorAccumulator = require('./common/erroraccumulator');
-var fileflags = require('./common/simplefileflags');
+var fileFlags = require('./common/simplefileflags');
 
+var errorCheck = require('./lib/errorcheck');
 var errorRecord = require('./lib/errorrecord');
 var runner = require('./lib/runner');
+
+var Rule = errorCheck.Rule;
 
 
 /**
@@ -48,7 +51,7 @@ var checkPaths = function(paths) {
  * Check a path and return any errors.
  *
  * @param {string} path Path to check.
- * @return {Array.<ErrorRecords>} A list of errorRecord.ErrorRecords for any
+ * @return {Array.<ErrorRecord>} A list of errorRecord.ErrorRecords for any
  *      found errors.
  */
 var checkPath = function(path) {
@@ -84,12 +87,12 @@ var generateSuffixes = function() {
     }
 
     return suffixes;
-}
+};
 
 
 var printFileSeparator = function(path) {
     console.log(_s.sprintf('----- FILE  :  %s -----', path));
-}
+};
 
 
 /**
@@ -109,11 +112,13 @@ var printErrorRecords = function(errorRecords) {
         }
         console.log(record.errorString);
     });
-}
+};
 
 
 /**
  * Print a summary of the number of errors and files.
+ * @param {Array.<string>} paths
+ * @param {Array.<ErrorRecord>} errorRecords
  */
 var printSummary = function(paths, errorRecords) {
     var errorCount = errorRecords.length;
@@ -123,9 +128,6 @@ var printSummary = function(paths, errorRecords) {
         console.log('%d files checked, no errors found.', pathCount);
     }
 
-    var newErrorCount = _.filter(errorRecords, function(e) {
-        return e.newError;}).length;
-
     var errorPaths = _.uniq(_.map(errorRecords, function(e) {
         return e.path;
     }));
@@ -133,10 +135,9 @@ var printSummary = function(paths, errorRecords) {
     var errorPathsCount = errorPaths.length;
     var noErrorPathsCount = pathCount - errorPathsCount;
 
-    if (errorCount || newErrorCount) {
-        console.log('Found %d errors, including %d new errors, in %d files ' +
-                '(%d files OK).', errorCount, newErrorCount, errorPathsCount,
-                noErrorPathsCount);
+    if (errorCount) {
+        console.log('Found %d errors in %d files (%d files OK).',
+                errorCount, errorPathsCount, noErrorPathsCount);
     }
 };
 
@@ -194,13 +195,43 @@ program.
         option('-I, --ignored_extra_namespaces <list>',
                 'Fully qualified namespaces that should be not be reported ' +
                 'as extra by the linter.', list).
+        option('-J, --jsdoc',
+                'Whether to report errors for missing JsDoc.', true).
+        option('-d, --disable <list>',
+                'Disable specific error. Usage Ex.: gjslint --disable 1,0011',
+                list).
+        option('-M, --max_line_length <n>',
+                'Maximum line length allowed without warning.', parseInt, 80).
+        option('-s, --strict',
+                'Whether to validate against the stricter Closure style. ' +
+                'This includes ' + Rule.CLOSURE_RULES.join(', ') + '.',
+                false).
+        option('-l, --jslint_error <list>',
+                'List of specific lint errors to check. Here is a list' +
+                ' of accepted values:\n' +
+                ' - ' + Rule.ALL + ': enables all following errors.\n' +
+                ' - ' + Rule.BLANK_LINES_AT_TOP_LEVEL + ': validates' +
+                'number of blank lines between blocks at top level.\n' +
+                ' - ' + Rule.INDENTATION + ': checks correct ' +
+                'indentation of code.\n' +
+                ' - ' + Rule.WELL_FORMED_AUTHOR + ': validates the ' +
+                '@author JsDoc tags.\n' +
+                ' - ' + Rule.NO_BRACES_AROUND_INHERIT_DOC + ': ' +
+                'forbids braces around @inheritdoc JsDoc tags.\n' +
+                ' - ' + Rule.BRACES_AROUND_TYPE + ': enforces braces ' +
+                'around types in JsDoc tags.\n' +
+                ' - ' + Rule.OPTIONAL_TYPE_MARKER + ': checks correct ' +
+                'use of optional marker = in param types.\n' +
+                ' - ' + Rule.UNUSED_PRIVATE_MEMBERS + ': checks for ' +
+                'unused private variables.\n',
+                list).
         parse(process.argv);
 
 if (program.time) {
     console.time('Done in');
 }
 
-var paths = fileflags.getFileList(generateSuffixes(program));
+var paths = fileFlags.getFileList(generateSuffixes());
 
 var errorRecords = checkPaths(paths);
 
