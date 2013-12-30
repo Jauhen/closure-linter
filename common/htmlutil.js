@@ -129,7 +129,7 @@ ScriptExtractor.prototype.getLines = function(parsedHtml) {
         }
 
         var numberOfLines = _s.count(node.raw, '\n');
-        for(var i = 0; i < numberOfLines; i++) {
+        for (var i = 0; i < numberOfLines; i++) {
             this.output.push('\n');
         }
         if (!script && node.children) {
@@ -140,7 +140,7 @@ ScriptExtractor.prototype.getLines = function(parsedHtml) {
         }
         if (node.closeRaw) {
             var numberOfLines = _s.count(node.closeRaw, '\n');
-            for(var i = 0; i < numberOfLines; i++) {
+            for (var i = 0; i < numberOfLines; i++) {
                 this.output.push('\n');
             }
         }

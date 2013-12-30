@@ -39,7 +39,7 @@ var _getUserSpecifiedFiles = function(suffixes) {
     _.each(program.args, function(f) {
         if (f.indexOf('*') != -1) {
             _.each(glob.sync(f, {mark: true}), function(result) {
-                allFiles = _.union(allFiles ,result);
+                allFiles = _.union(allFiles, result);
             });
         } else {
             allFiles = _.union(allFiles, f);
