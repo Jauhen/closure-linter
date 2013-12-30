@@ -30,7 +30,7 @@ var Tokenizer = function(startingMode, matchers, defaultTypes) {
 /**
  * Tokenizes the given file.
  * @param {string} file Content of the file.
- * @returns {Token}
+ * @return {Token}
  */
 Tokenizer.prototype.tokenizeFile = function(file) {
     this.mode = this._startingMode;
@@ -56,7 +56,7 @@ Tokenizer.prototype.tokenizeFile = function(file) {
  * @param {Object} opt_values A dict of named values within the token.
  *      For instance, a function declaration may have a value called 'name'
  *      which captures the name of the function.
- * @returns {Token} The newly created Token object.
+ * @return {Token} The newly created Token object.
  * @private
  */
 Tokenizer.prototype._createToken = function(string, tokenType, line, lineNumber,
@@ -137,7 +137,7 @@ Tokenizer.prototype._tokenizeLine = function(line) {
  * @param {string} string The string to tokenize.
  * @param {string} line The line of text.
  * @param {number} lineNumber The line number within the file.
- * @returns {Token} A Token object, of the default type for the current mode.
+ * @return {Token} A Token object, of the default type for the current mode.
  * @private
  */
 Tokenizer.prototype._createNormalToken = function(mode, string, line,

@@ -30,8 +30,6 @@ var ScriptExtractor = function(html) {
  * This needed, because tags like </div\n> move all code one line down.
  *
  * @param {Object} element Element to be added to tree.
- * @property {DefaultHandler} this This method is called as member of
- *      DefaultHandler.
  */
 ScriptExtractor.handleElement = function(element) {
     if (this._done) {
@@ -166,7 +164,7 @@ ScriptExtractor.prototype.getScriptLines = function() {
  * Extract script tag contents from the given HTML file.
  *
  * @param {string} f The HTML file.
- * @returns {string} Lines in the HTML file that are from script tags.
+ * @return {string} Lines in the HTML file that are from script tags.
  */
 var getScriptLine = function(f) {
     var extractor = new ScriptExtractor(f);

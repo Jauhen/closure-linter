@@ -56,7 +56,7 @@ var _getUserSpecifiedFiles = function(suffixes) {
  *
  * @param {Array.<string>} suffixes Expected suffixes for the file type being
  *      checked.
- * @returns {Array.<string>} A list of files to be checked.
+ * @return {Array.<string>} A list of files to be checked.
  * @private
  */
 var _getRecursiveFiles = function(suffixes) {

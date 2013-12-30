@@ -60,7 +60,7 @@ var Token = function(string, tokenType, line, lineNumber, opt_values,
 
 /**
  * Tests if this token is the first token in its line.
- * @returns {boolean} Whether the token is the first token in its line.
+ * @return {boolean} Whether the token is the first token in its line.
  */
 Token.prototype.isFirstInLine = function() {
     return !this.previous || this.previous.lineNumber != this.lineNumber;
@@ -69,7 +69,7 @@ Token.prototype.isFirstInLine = function() {
 
 /**
  * Tests if this token is the last token in its line.
- * @returns {boolean} Whether the token is the last token in its line.
+ * @return {boolean} Whether the token is the last token in its line.
  */
 Token.prototype.isLastInLine = function() {
     return !this.next || this.next.lineNumber != this.lineNumber;
@@ -79,7 +79,7 @@ Token.prototype.isLastInLine = function() {
 /**
  * Tests if this token is of the given type.
  * @param {TokenType} tokenType The type to test for.
- * @returns {boolean} True if the type of this token matches the type passed in.
+ * @return {boolean} True if the type of this token matches the type passed in.
  */
 Token.prototype.isType = function(tokenType) {
     return this.type == tokenType;
@@ -89,7 +89,7 @@ Token.prototype.isType = function(tokenType) {
 /**
  * Tests if this token is any of the given types.
  * @param {Array.<TokenType} tokenTypes The types to check.
- * @returns {boolean} True if the type of this token is any of the types
+ * @return {boolean} True if the type of this token is any of the types
  *      passed in.
  */
 Token.prototype.isAnyType = function(tokenTypes) {
@@ -98,7 +98,7 @@ Token.prototype.isAnyType = function(tokenTypes) {
 
 
 /**
- * @returns {string}
+ * @return {string}
  */
 Token.prototype.toString = function() {
     return _s.sprintf('<Token: %s, "%s", %s, %d, %s>',
@@ -109,7 +109,7 @@ Token.prototype.toString = function() {
 
 /**
  * Returns a token iterator.
- * @returns {Array.<Token>}
+ * @return {Array.<Token>}
  */
 Token.prototype.directIterator = function() {
     var current = this;
@@ -124,7 +124,7 @@ Token.prototype.directIterator = function() {
 
 /**
  * Returns a reverse-direction token iterator.
- * @returns {Array.<Token>}
+ * @return {Array.<Token>}
  */
 Token.prototype.reverseIterator = function() {
     var current = this;
