@@ -151,7 +151,7 @@ var printFileSummary = function(paths, errorRecords) {
         });
 
         console.log('%s: %d', path, pathErrors.length);
-    })
+    });
 };
 
 

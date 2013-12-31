@@ -39,7 +39,7 @@ ScriptExtractor.handleElement = function(element) {
     }
 
     if (!this._options.verbose) {
-        //			element.raw = null; //FIXME: Not clean
+        // element.raw = null; //FIXME: Not clean
         //FIXME: Serious performance problem using delete
         delete element.raw;
         if (element.type == htmlparser.ElementType.Tag ||
