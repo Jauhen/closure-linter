@@ -8,10 +8,10 @@
  * to tokenize line by line.  We can have different patterns apply to different
  * modes - i.e. looking for documentation while in comment mode.
  *
- * @param regex
- * @param tokenType
- * @param opt_resultMode
- * @param opt_lineStart
+ * @param {RegExp} regex
+ * @param {TokenType} tokenType
+ * @param {JavaScriptModes} opt_resultMode
+ * @param {boolean} opt_lineStart
  * @constructor
  */
 var Matcher = function(regex, tokenType, opt_resultMode, opt_lineStart) {
