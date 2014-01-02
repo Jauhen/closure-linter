@@ -30,6 +30,7 @@ var ScriptExtractor = function(html) {
  * This needed, because tags like </div\n> move all code one line down.
  *
  * @param {Object} element Element to be added to tree.
+ * @this {htmlparser.Parser}
  */
 ScriptExtractor.handleElement = function(element) {
     if (this._done) {
