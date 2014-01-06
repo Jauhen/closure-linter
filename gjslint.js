@@ -195,11 +195,11 @@ program.
         option('-I, --ignored_extra_namespaces <list>',
                 'Fully qualified namespaces that should be not be reported ' +
                 'as extra by the linter.', list).
-        option('-J, --jsdoc <b>',
-                'Whether to report errors for missing JsDoc.', true).
         option('-d, --disable <list>',
                 'Disable specific error. Usage Ex.: gjslint --disable 1,0011',
                 list).
+        option('-J, --jsdoc <b>',
+                'Whether to report errors for missing JsDoc.', true).
         option('-M, --max_line_length <n>',
                 'Maximum line length allowed without warning.', parseInt, 80).
         option('-s, --strict',
