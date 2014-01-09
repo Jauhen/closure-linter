@@ -35,7 +35,7 @@ var getErrorOutput = function(error) {
     var errorCode = error.code < 0 ? _s.sprintf('E:-%03d', -1 * error.code) :
             _s.sprintf('E:%04d', error.code);
 
-    return _s.sprintf('%s%s:%s', line, errorCode, error.message);
+    return _s.sprintf('%s%s: %s', line, errorCode, error.message);
 };
 
 

@@ -91,9 +91,13 @@ Tokenizer.prototype._tokenizeLine = function(line) {
             }
 
             matcher.regex.lastIndex = 0;
-            var match = matcher.regex.exec(string.substr(index));
+            var stringRest = string.substr(index);
+            var neededIndex = matcher.regex.neededIndex || 0;
+            var match = matcher.regex.exec(stringRest);
 
-            if (match && match.index == 0) {
+            if (match && match.index == 0 &&
+                    (!matcher.regex.neededIndex || // if positive lookup needed
+                    _s.startsWith(stringRest, match[neededIndex]))) {
                 if (normalToken) {
                     this._addToken(this._createNormalToken(
                             this.mode, normalToken, line, lineNumber));
@@ -102,13 +106,14 @@ Tokenizer.prototype._tokenizeLine = function(line) {
 
                 // Add the match.
                 this._addToken(this._createToken(
-                        match[0], matcher.type, line, lineNumber, match));
+                        match[neededIndex], matcher.type, line, lineNumber,
+                        match));
 
                 // Change the mode to the correct one for after this match.
                 this.mode = matcher.resultMode || this.mode;
 
                 // Shorten the string to be matched.
-                index = index + match[0].length;
+                index = index + match[neededIndex].length;
 
                 return true;
             }
