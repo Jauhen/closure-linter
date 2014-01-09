@@ -88,7 +88,7 @@ Token.prototype.isType = function(tokenType) {
 
 /**
  * Tests if this token is any of the given types.
- * @param {Array.<TokenType} tokenTypes The types to check.
+ * @param {Array.<TokenType>} tokenTypes The types to check.
  * @return {boolean} True if the type of this token is any of the types
  *      passed in.
  */
